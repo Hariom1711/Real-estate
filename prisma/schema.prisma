@@ -1,0 +1,83 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  // To use Neon DB (PostgreSQL) in production:
+  // 1. Change provider from "sqlite" to "postgresql"
+  // 2. Change url config inside prisma.config.ts
+  provider = "sqlite"
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String   // Hashed password
+  name      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Location {
+  id           String     @id @default(uuid())
+  name         String     @unique // e.g. Baner, Koregaon Park
+  avgPriceSqft Float      // Avg price per sqft in INR
+  properties   Property[]
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+}
+
+model Property {
+  id             String   @id @default(uuid())
+  title          String   // e.g. 3 BHK Luxury Apartment
+  slug           String   @unique
+  description    String
+  type           String   // apartment, villa, commercial
+  bhk            Int      // 1, 2, 3, etc.
+  price          Float    // in INR (e.g. 12500000 for 1.25 Cr)
+  area           Int      // in sqft
+  floor          Int?     // floor index (optional)
+  possessionDate String?  // e.g. Dec 2026
+  status         String   @default("available") // available, booked, sold
+  featured       Boolean  @default(false)
+  address        String
+  mapsUrl        String?  // Google Maps embed URL
+  whatsappText   String?  // Pre-filled WhatsApp message
+  
+  // Store lists as comma-separated strings for SQLite provider compatibility
+  images         String   // Comma-separated URLs
+  amenities      String   // Comma-separated amenity list
+  
+  locationId     String
+  location       Location @relation(fields: [locationId], references: [id], onDelete: Cascade)
+  leads          Lead[]
+  
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model Lead {
+  id         String   @id @default(uuid())
+  name       String
+  phone      String
+  message    String
+  propertyId String
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
+}
+
+model Settings {
+  id               String   @id @default("global")
+  companyName      String   @default("Pune Realty")
+  phone            String   @default("+91 98765 43210")
+  whatsappNo       String   @default("919876543210")
+  officeAddress    String   @default("101, Luxury Chambers, Baner, Pune - 411045")
+  heroHeadlineText String   @default("Find your place\nin Pune.")
+  statsProjects    Int      @default(12)
+  statsClients     Int      @default(450)
+  statsCities      Int      @default(1)
+  updatedAt        DateTime @updatedAt
+}

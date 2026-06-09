@@ -1,0 +1,248 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+.w{padding:1rem 0.25rem;font-family:var(--font-sans);}
+.tabs{display:flex;border-bottom:0.5px solid var(--color-border-tertiary);margin-bottom:1.5rem;}
+.tab{font-size:13px;padding:8px 14px;cursor:pointer;color:var(--color-text-secondary);border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap;}
+.tab.active{color:var(--color-text-primary);border-bottom-color:#1a1a1a;font-weight:500;}
+
+.verdict-bar{display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:var(--border-radius-lg);border:0.5px solid var(--color-border-tertiary);background:var(--color-background-primary);margin-bottom:16px;}
+.score-num{font-size:32px;font-weight:500;color:var(--color-text-primary);line-height:1;}
+.score-label{font-size:12px;color:var(--color-text-secondary);}
+.score-bar-wrap{flex:1;height:6px;background:var(--color-background-secondary);border-radius:3px;overflow:hidden;}
+.score-bar{height:6px;border-radius:3px;background:#1a1a1a;}
+
+.review-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;}
+.r-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:14px 16px;}
+.r-card h4{font-size:13px;font-weight:500;margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+.r-card ul{list-style:none;}
+.r-card ul li{font-size:11.5px;color:var(--color-text-secondary);padding:3px 0;display:flex;align-items:flex-start;gap:6px;line-height:1.5;}
+.tick{color:#1d9e75;font-size:13px;flex-shrink:0;}
+.cross{color:#e24b4a;font-size:13px;flex-shrink:0;}
+.warn{color:#ba7517;font-size:13px;flex-shrink:0;}
+
+.adapt-list{display:flex;flex-direction:column;gap:8px;}
+.adapt-item{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);}
+.adapt-num{width:22px;height:22px;border-radius:50%;background:#1a1a1a;color:#fff;font-size:11px;font-weight:500;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+.adapt-body h5{font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:3px;}
+.adapt-body p{font-size:11.5px;color:var(--color-text-secondary);line-height:1.6;}
+
+.comp-table{width:100%;border-collapse:collapse;font-size:12px;}
+.comp-table th{text-align:left;padding:8px 10px;font-size:11px;font-weight:500;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:.06em;border-bottom:0.5px solid var(--color-border-tertiary);}
+.comp-table td{padding:9px 10px;border-bottom:0.5px solid var(--color-border-tertiary);color:var(--color-text-secondary);vertical-align:top;line-height:1.5;}
+.comp-table td:first-child{color:var(--color-text-primary);font-weight:500;}
+.dot-g{display:inline-block;width:7px;height:7px;border-radius:50%;background:#1d9e75;margin-right:5px;}
+.dot-y{display:inline-block;width:7px;height:7px;border-radius:50%;background:#ba7517;margin-right:5px;}
+.dot-r{display:inline-block;width:7px;height:7px;border-radius:50%;background:#e24b4a;margin-right:5px;}
+</style>
+
+<div class="w">
+<div class="tabs">
+  <div class="tab active" id="t1" onclick="sw(1)">Verdict</div>
+  <div class="tab" id="t2" onclick="sw(2)">What works / doesn't</div>
+  <div class="tab" id="t3" onclick="sw(3)">Adaptations needed</div>
+  <div class="tab" id="t4" onclick="sw(4)">Real estate fit check</div>
+</div>
+
+<!-- TAB 1: VERDICT -->
+<div id="p1">
+  <div class="verdict-bar">
+    <div>
+      <div class="score-num">8.5</div>
+      <div class="score-label">Design quality / 10</div>
+    </div>
+    <div class="score-bar-wrap"><div class="score-bar" style="width:85%"></div></div>
+  </div>
+  <div class="verdict-bar">
+    <div>
+      <div class="score-num">6</div>
+      <div class="score-label">Real estate fit as-is / 10</div>
+    </div>
+    <div class="score-bar-wrap"><div class="score-bar" style="width:60%"></div></div>
+  </div>
+  <div class="verdict-bar">
+    <div>
+      <div class="score-num">9</div>
+      <div class="score-label">Fit after adaptations / 10</div>
+    </div>
+    <div class="score-bar-wrap"><div class="score-bar" style="width:90%"></div></div>
+  </div>
+
+  <div style="padding:14px 16px;background:var(--color-background-secondary);border-radius:var(--border-radius-lg);font-size:13px;color:var(--color-text-secondary);line-height:1.7;margin-top:4px;">
+    This is a <strong style="color:var(--color-text-primary);">premium venture-capital / startup studio</strong> aesthetic — liquid glass, cinematic video, character-by-character animation. The design language is excellent. The issue is the original copy and video are built for a VC firm. For a Pune real estate site you need to swap the video, headline, and CTA — the <em>design system itself</em> (glass cards, Inter font, dark cinematic hero) is worth keeping and will make your site stand out from every other Indian real estate site that uses white backgrounds and stock photo sliders.
+  </div>
+</div>
+
+<!-- TAB 2: WORKS / DOESN'T -->
+<div id="p2" style="display:none">
+  <div class="review-grid">
+    <div class="r-card">
+      <h4 style="color:#1d9e75;"><i class="ti ti-check" aria-hidden="true"></i> What works perfectly</h4>
+      <ul>
+        <li><span class="tick">✓</span> Liquid glass navbar — premium, modern, trending in 2026</li>
+        <li><span class="tick">✓</span> Full-screen video background — perfect for showing Pune skyline or a project walkthrough</li>
+        <li><span class="tick">✓</span> Inter font — clean, readable, very professional for property data</li>
+        <li><span class="tick">✓</span> Character animation on heading — memorable first impression</li>
+        <li><span class="tick">✓</span> No overlay on video — raw video creates cinematic feel</li>
+        <li><span class="tick">✓</span> Glass tag card bottom-right — great for a tagline like "Apartments · Villas · Commercial"</li>
+        <li><span class="tick">✓</span> Dark hero with white text — makes property photos on listing cards pop</li>
+        <li><span class="tick">✓</span> Fade-in staggered animations — feels crafted, not templated</li>
+      </ul>
+    </div>
+    <div class="r-card">
+      <h4 style="color:#e24b4a;"><i class="ti ti-x" aria-hidden="true"></i> What needs changing</h4>
+      <ul>
+        <li><span class="cross">✗</span> VC copy ("Shaping tomorrow with vision and action") — wrong audience for property buyers</li>
+        <li><span class="cross">✗</span> "Start a Chat" CTA label — should be "Browse Properties" or "Find Your Home"</li>
+        <li><span class="cross">✗</span> "Story, Investing, Building, Advisory" nav links — these are VC page names, not real estate</li>
+        <li><span class="cross">✗</span> No search bar in hero — the #1 thing buyers expect on a real estate homepage</li>
+        <li><span class="cross">✗</span> Original video is abstract / corporate — needs Pune skyline, luxury interiors, or drone footage</li>
+        <li><span class="warn">!</span> Pure black bg for the rest of site may feel heavy for a 45-min browsing session on listings</li>
+        <li><span class="warn">!</span> Character animation on every page load could feel slow if user returns often</li>
+      </ul>
+    </div>
+  </div>
+  <div style="padding:12px 14px;background:var(--color-background-secondary);border-radius:var(--border-radius-md);font-size:12px;color:var(--color-text-secondary);">
+    <strong style="color:var(--color-text-primary);">Bottom line:</strong> Keep the entire design system. Swap the copy, video, nav links, and add a search bar below the headline. That's it — the bones are excellent.
+  </div>
+</div>
+
+<!-- TAB 3: ADAPTATIONS -->
+<div id="p3" style="display:none">
+  <div class="adapt-list">
+    <div class="adapt-item">
+      <div class="adapt-num">1</div>
+      <div class="adapt-body">
+        <h5>Replace the video</h5>
+        <p>Use a drone shot of Pune skyline (Baner/Koregaon Park area), a luxury apartment walkthrough, or a sunset aerial. Free source: Pexels.com has good India property videos. Or ask the client if they have any project footage. This is the single biggest impact change.</p>
+      </div>
+    </div>
+    <div class="adapt-item">
+      <div class="adapt-num">2</div>
+      <div class="adapt-body">
+        <h5>Rewrite the headline</h5>
+        <p>Change "Shaping tomorrow with vision and action" to something like — "Find your place in Pune." or "Premium homes. Prime locations." Keep it short, the character animation works best with under 6 words per line.</p>
+      </div>
+    </div>
+    <div class="adapt-item">
+      <div class="adapt-num">3</div>
+      <div class="adapt-body">
+        <h5>Add a search bar below the headline</h5>
+        <p>A glass-styled search bar (liquid-glass class) with location dropdown + type dropdown + a search button. This is the #1 conversion driver on real estate sites. Appears after the headline fade-in, at ~1400ms delay. Results go to /listings?location=X&type=Y.</p>
+      </div>
+    </div>
+    <div class="adapt-item">
+      <div class="adapt-num">4</div>
+      <div class="adapt-body">
+        <h5>Fix the navbar links</h5>
+        <p>Replace "Story, Investing, Building, Advisory" with "Properties, Locations, Compare, Contact". Keep the same glass navbar styling exactly — just different text.</p>
+      </div>
+    </div>
+    <div class="adapt-item">
+      <div class="adapt-num">5</div>
+      <div class="adapt-body">
+        <h5>Change the bottom-right tag</h5>
+        <p>Replace "Investing. Building. Advisory." with "Apartments · Villas · Commercial" or "Pune's Premium Properties". Same glass card, same animation — just real estate copy.</p>
+      </div>
+    </div>
+    <div class="adapt-item">
+      <div class="adapt-num">6</div>
+      <div class="adapt-body">
+        <h5>Lighten the rest of the site (not the hero)</h5>
+        <p>Keep the dark cinematic hero for impact. After the user scrolls, switch to a light/neutral background for the listings section — property cards are much easier to read on white/off-white. The contrast between dark hero and light listings section actually looks great.</p>
+      </div>
+    </div>
+    <div class="adapt-item">
+      <div class="adapt-num">7</div>
+      <div class="adapt-body">
+        <h5>Brand name</h5>
+        <p>Replace "VEX" with your client's brand. The text-2xl font-semibold tracking-tight style is perfect — keep it. Add a small logo image if they have one.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TAB 4: FIT CHECK -->
+<div id="p4" style="display:none">
+  <table class="comp-table">
+    <thead>
+      <tr>
+        <th>Feature</th>
+        <th>Original (VC site)</th>
+        <th>For Pune real estate</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Video background</td>
+        <td><span class="dot-g"></span>Abstract motion</td>
+        <td><span class="dot-g"></span>Pune skyline / property drone</td>
+      </tr>
+      <tr>
+        <td>Hero headline</td>
+        <td><span class="dot-r"></span>VC philosophy copy</td>
+        <td><span class="dot-g"></span>"Find your place in Pune."</td>
+      </tr>
+      <tr>
+        <td>Search bar</td>
+        <td><span class="dot-r"></span>Not present</td>
+        <td><span class="dot-g"></span>Must add — glass style</td>
+      </tr>
+      <tr>
+        <td>Nav links</td>
+        <td><span class="dot-r"></span>VC pages</td>
+        <td><span class="dot-g"></span>Properties, Locations, Compare…</td>
+      </tr>
+      <tr>
+        <td>Liquid glass navbar</td>
+        <td><span class="dot-g"></span>Perfect</td>
+        <td><span class="dot-g"></span>Keep exactly as-is</td>
+      </tr>
+      <tr>
+        <td>Glass card (bottom right)</td>
+        <td><span class="dot-g"></span>VC tagline</td>
+        <td><span class="dot-g"></span>"Apartments · Villas · Commercial"</td>
+      </tr>
+      <tr>
+        <td>Character animation</td>
+        <td><span class="dot-g"></span>Works great</td>
+        <td><span class="dot-g"></span>Keep — very memorable</td>
+      </tr>
+      <tr>
+        <td>Inter font</td>
+        <td><span class="dot-g"></span>Perfect</td>
+        <td><span class="dot-g"></span>Keep — ideal for property data</td>
+      </tr>
+      <tr>
+        <td>Dark hero only</td>
+        <td><span class="dot-g"></span>Full dark site</td>
+        <td><span class="dot-y"></span>Dark hero, light sections below</td>
+      </tr>
+      <tr>
+        <td>CTA buttons</td>
+        <td><span class="dot-r"></span>"Start a Chat / Explore Now"</td>
+        <td><span class="dot-g"></span>"Browse Properties / WhatsApp Us"</td>
+      </tr>
+      <tr>
+        <td>Mobile experience</td>
+        <td><span class="dot-g"></span>Good responsive setup</td>
+        <td><span class="dot-g"></span>Keep — 70%+ of Indian traffic is mobile</td>
+      </tr>
+      <tr>
+        <td>Overall vibe</td>
+        <td><span class="dot-g"></span>Premium, cinematic</td>
+        <td><span class="dot-g"></span>Perfect for luxury real estate positioning</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+</div>
+<script>
+function sw(n){
+  for(let i=1;i<=4;i++){
+    document.getElementById('p'+i).style.display=i===n?'block':'none';
+    document.getElementById('t'+i).className='tab'+(i===n?' active':'');
+  }
+}
+</script>

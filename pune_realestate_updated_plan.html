@@ -1,0 +1,424 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+.w{padding:1rem 0.25rem;font-family:var(--font-sans);}
+.tabs{display:flex;border-bottom:0.5px solid var(--color-border-tertiary);margin-bottom:1.5rem;}
+.tab{font-size:13px;padding:8px 14px;cursor:pointer;color:var(--color-text-secondary);border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap;}
+.tab.active{color:var(--color-text-primary);border-bottom-color:#1a1a1a;font-weight:500;}
+
+/* STACK */
+.stack-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:8px;}
+.stack-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:12px 14px;}
+.stack-card .sc-role{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--color-text-tertiary);margin-bottom:4px;}
+.stack-card .sc-name{font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:4px;}
+.stack-card .sc-why{font-size:11px;color:var(--color-text-secondary);line-height:1.5;}
+.accent-bar{height:3px;border-radius:2px;margin-bottom:10px;}
+.ab-blue{background:#378add;}
+.ab-purple{background:#7f77dd;}
+.ab-teal{background:#1d9e75;}
+.ab-amber{background:#ef9f27;}
+.ab-coral{background:#d85a30;}
+.ab-green{background:#639922;}
+.ab-gray{background:#888780;}
+.ab-pink{background:#d4537e;}
+
+/* PAGES */
+.pages-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.page-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:14px 16px;}
+.page-card h4{font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:2px;display:flex;align-items:center;gap:6px;}
+.page-card .route{font-size:11px;font-family:var(--font-mono);color:var(--color-text-tertiary);margin-bottom:8px;}
+.page-card ul{list-style:none;}
+.page-card ul li{font-size:11.5px;color:var(--color-text-secondary);padding:2px 0;display:flex;align-items:flex-start;gap:5px;}
+.page-card ul li::before{content:'';width:4px;height:4px;border-radius:50%;background:var(--color-border-primary);flex-shrink:0;margin-top:5px;}
+.badge{font-size:10px;padding:2px 7px;border-radius:999px;font-weight:500;flex-shrink:0;}
+.b-rsc{background:#e6f1fb;color:#0c447c;}
+.b-cc{background:#eaf3de;color:#27500a;}
+.b-sa{background:#eeedfe;color:#3c3489;}
+.b-admin{background:#faece7;color:#712b13;}
+
+/* ADMIN */
+.admin-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.admin-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:14px;}
+.admin-card i{font-size:20px;color:var(--color-text-secondary);margin-bottom:6px;}
+.admin-card h4{font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:6px;}
+.admin-card ul{list-style:none;}
+.admin-card ul li{font-size:11.5px;color:var(--color-text-secondary);padding:2px 0;}
+
+/* FOLDER */
+.folder{font-family:var(--font-mono);font-size:12px;color:var(--color-text-primary);line-height:1.8;background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:16px 20px;}
+.folder .dir{color:var(--color-text-primary);font-weight:500;}
+.folder .file{color:var(--color-text-secondary);}
+.folder .comment{color:var(--color-text-tertiary);}
+
+/* FLOWCHART */
+.flow-wrap{overflow-x:auto;}
+</style>
+
+<div class="w">
+<div class="tabs">
+  <div class="tab active" id="t1" onclick="sw(1)">Stack</div>
+  <div class="tab" id="t2" onclick="sw(2)">Pages & rendering</div>
+  <div class="tab" id="t3" onclick="sw(3)">Admin panel</div>
+  <div class="tab" id="t4" onclick="sw(4)">Folder structure</div>
+  <div class="tab" id="t5" onclick="sw(5)">User flow</div>
+</div>
+
+<!-- TAB 1: STACK -->
+<div id="p1">
+  <div style="font-size:12px;color:var(--color-text-secondary);margin-bottom:14px;">Every tool chosen for a reason — no unnecessary complexity.</div>
+  <div class="stack-row">
+    <div class="stack-card"><div class="accent-bar ab-blue"></div><div class="sc-role">Framework</div><div class="sc-name">Next.js 15</div><div class="sc-why">App Router, RSC, Server Actions, ISR caching — everything in one framework.</div></div>
+    <div class="stack-card"><div class="accent-bar ab-teal"></div><div class="sc-role">Database</div><div class="sc-name">Neon DB (Postgres)</div><div class="sc-why">Serverless Postgres. Free tier generous. Branches for dev/prod. No connection pooling headaches.</div></div>
+    <div class="stack-card"><div class="accent-bar ab-purple"></div><div class="sc-role">ORM</div><div class="sc-name">Prisma</div><div class="sc-why">Type-safe client, auto migrations, Prisma Studio as a visual DB editor — perfect for this project.</div></div>
+    <div class="stack-card"><div class="accent-bar ab-amber"></div><div class="sc-role">Auth</div><div class="sc-name">NextAuth v5</div><div class="sc-why">Credentials provider for admin login. Single hashed password in DB. Middleware protects /admin/*.</div></div>
+  </div>
+  <div class="stack-row">
+    <div class="stack-card"><div class="accent-bar ab-coral"></div><div class="sc-role">Images</div><div class="sc-name">Cloudinary</div><div class="sc-why">Free 25 GB. Signed upload from admin. Auto-optimize & resize via URL params. No storage cost on Vercel.</div></div>
+    <div class="stack-card"><div class="accent-bar ab-green"></div><div class="sc-role">Styling</div><div class="sc-name">Tailwind CSS v4</div><div class="sc-why">Utility-first. Zero runtime CSS. Works perfectly with RSC. You already know it.</div></div>
+    <div class="stack-card"><div class="accent-bar ab-gray"></div><div class="sc-role">Validation</div><div class="sc-name">Zod + React Hook Form</div><div class="sc-why">Zod schemas shared between server actions and client forms. One source of truth for validation.</div></div>
+    <div class="stack-card"><div class="accent-bar ab-pink"></div><div class="sc-role">Hosting</div><div class="sc-name">Vercel</div><div class="sc-why">Zero-config Next.js deploy. Edge network. Free SSL. Connects to Neon natively.</div></div>
+  </div>
+  <div style="margin-top:8px;padding:12px 14px;background:var(--color-background-secondary);border-radius:var(--border-radius-md);font-size:12px;color:var(--color-text-secondary);">
+    Also: <strong style="color:var(--color-text-primary);font-weight:500;">lucide-react</strong> for icons · <strong style="color:var(--color-text-primary);font-weight:500;">next-themes</strong> for dark mode · <strong style="color:var(--color-text-primary);font-weight:500;">@tanstack/react-table</strong> for admin leads table · <strong style="color:var(--color-text-primary);font-weight:500;">resend</strong> for email notifications on new leads
+  </div>
+</div>
+
+<!-- TAB 2: PAGES -->
+<div id="p2" style="display:none">
+  <div style="font-size:12px;color:var(--color-text-secondary);margin-bottom:14px;">
+    <span style="display:inline-flex;align-items:center;gap:4px;margin-right:12px;"><span class="badge b-rsc">RSC</span> Server component — no JS shipped</span>
+    <span style="display:inline-flex;align-items:center;gap:4px;margin-right:12px;"><span class="badge b-cc">CC</span> Client component — interactive</span>
+    <span style="display:inline-flex;align-items:center;gap:4px;margin-right:12px;"><span class="badge b-sa">SA</span> Server action — form mutations</span>
+    <span style="display:inline-flex;align-items:center;gap:4px;"><span class="badge b-admin">Admin</span> Protected route</span>
+  </div>
+  <div class="pages-grid">
+    <div class="page-card">
+      <h4><span class="badge b-rsc">RSC</span> Homepage</h4>
+      <div class="route">app/(public)/page.tsx</div>
+      <ul>
+        <li>Hero with smart search bar (CC)</li>
+        <li>Top 10 Pune locations strip</li>
+        <li>Category quick-filter pills (CC)</li>
+        <li>Featured properties grid (from DB)</li>
+        <li>Stats — projects, cities, clients</li>
+        <li>Testimonials + WhatsApp CTA</li>
+      </ul>
+    </div>
+    <div class="page-card">
+      <h4><span class="badge b-cc">CC</span> Listings</h4>
+      <div class="route">app/(public)/listings/page.tsx</div>
+      <ul>
+        <li>URL-based filters (searchParams)</li>
+        <li>Filter sidebar — type, BHK, budget, area</li>
+        <li>Grid / map view toggle</li>
+        <li>Sort: price, newest, area sqft</li>
+        <li>Compare checkbox on each card (max 2)</li>
+        <li>Infinite scroll / pagination</li>
+      </ul>
+    </div>
+    <div class="page-card">
+      <h4><span class="badge b-rsc">RSC</span> Property detail</h4>
+      <div class="route">app/(public)/property/[slug]/page.tsx</div>
+      <ul>
+        <li>Photo gallery (CC — lightbox)</li>
+        <li>Full specs, highlights, amenities grid</li>
+        <li>Google Maps embed</li>
+        <li>EMI calculator (CC — inline)</li>
+        <li>Sticky enquiry sidebar → WhatsApp</li>
+        <li>Similar properties carousel</li>
+        <li>generateMetadata for SEO</li>
+      </ul>
+    </div>
+    <div class="page-card">
+      <h4><span class="badge b-cc">CC</span> Compare</h4>
+      <div class="route">app/(public)/compare/page.tsx</div>
+      <ul>
+        <li>Reads 2 IDs from URL params</li>
+        <li>Side-by-side full spec table</li>
+        <li>Rows highlighted where values differ</li>
+        <li>Enquire button on each column</li>
+        <li>Swap / remove property option</li>
+      </ul>
+    </div>
+    <div class="page-card">
+      <h4><span class="badge b-cc">CC</span> Contact + EMI</h4>
+      <div class="route">app/(public)/contact/page.tsx</div>
+      <ul>
+        <li>Contact form → Server Action → save lead</li>
+        <li>Standalone EMI calculator widget</li>
+        <li>Office Google Maps embed</li>
+        <li>WhatsApp floating button</li>
+      </ul>
+    </div>
+    <div class="page-card">
+      <h4><span class="badge b-admin">Admin</span> Dashboard</h4>
+      <div class="route">app/admin/page.tsx</div>
+      <ul>
+        <li>Total properties, leads today, featured count</li>
+        <li>Recent leads list (last 10)</li>
+        <li>Quick-add property button</li>
+        <li>All pages under middleware auth guard</li>
+      </ul>
+    </div>
+    <div class="page-card">
+      <h4><span class="badge b-admin">Admin</span> Properties CRUD</h4>
+      <div class="route">app/admin/properties/*</div>
+      <ul>
+        <li>Table: all properties with status badges</li>
+        <li>Add new — full form with image upload</li>
+        <li>Edit any field inline or via form</li>
+        <li>Toggle featured / sold / available</li>
+        <li>Delete with confirmation</li>
+        <li>Server Actions for all mutations</li>
+      </ul>
+    </div>
+    <div class="page-card">
+      <h4><span class="badge b-admin">Admin</span> Leads + Locations</h4>
+      <div class="route">app/admin/leads · /locations</div>
+      <ul>
+        <li>Leads table — name, phone, property, date</li>
+        <li>Filter leads by property or date range</li>
+        <li>Export leads to CSV</li>
+        <li>Add / edit Pune locations with avg price</li>
+        <li>Manage amenities master list</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- TAB 3: ADMIN -->
+<div id="p3" style="display:none">
+  <div style="font-size:12px;color:var(--color-text-secondary);margin-bottom:14px;">Everything the client can do themselves — no developer needed after handoff.</div>
+  <div class="admin-grid">
+    <div class="admin-card">
+      <i class="ti ti-building-estate" aria-hidden="true"></i>
+      <h4>Add a property</h4>
+      <ul>
+        <li>Title, type, BHK, price, area</li>
+        <li>Floor, possession date, status</li>
+        <li>Select location from dropdown</li>
+        <li>Pick amenities from checklist</li>
+        <li>Paste Google Maps embed URL</li>
+        <li>WhatsApp message pre-fill text</li>
+      </ul>
+    </div>
+    <div class="admin-card">
+      <i class="ti ti-photo-up" aria-hidden="true"></i>
+      <h4>Upload images</h4>
+      <ul>
+        <li>Drag-and-drop multi-upload</li>
+        <li>Signed upload direct to Cloudinary</li>
+        <li>Reorder images (set cover photo)</li>
+        <li>Delete individual photos</li>
+        <li>Auto-compressed, CDN delivered</li>
+      </ul>
+    </div>
+    <div class="admin-card">
+      <i class="ti ti-toggle-right" aria-hidden="true"></i>
+      <h4>Manage listings</h4>
+      <ul>
+        <li>Mark as Featured (shows on homepage)</li>
+        <li>Change status: Available / Booked / Sold</li>
+        <li>Edit price without full re-submit</li>
+        <li>Duplicate a listing as template</li>
+        <li>Soft delete (archive, not hard delete)</li>
+      </ul>
+    </div>
+    <div class="admin-card">
+      <i class="ti ti-users" aria-hidden="true"></i>
+      <h4>View leads</h4>
+      <ul>
+        <li>Every enquiry auto-saved to DB</li>
+        <li>See property they enquired about</li>
+        <li>One-click WhatsApp reply</li>
+        <li>Filter by date / property</li>
+        <li>Export all leads as CSV</li>
+      </ul>
+    </div>
+    <div class="admin-card">
+      <i class="ti ti-map-pin" aria-hidden="true"></i>
+      <h4>Locations</h4>
+      <ul>
+        <li>Add / rename Pune areas</li>
+        <li>Set avg price per sqft</li>
+        <li>Shown on homepage location strip</li>
+        <li>Drives location filter on listings</li>
+      </ul>
+    </div>
+    <div class="admin-card">
+      <i class="ti ti-settings" aria-hidden="true"></i>
+      <h4>Site settings</h4>
+      <ul>
+        <li>Company name, phone, WhatsApp no.</li>
+        <li>Office address for contact page</li>
+        <li>Hero headline text</li>
+        <li>Stats numbers (projects, clients…)</li>
+        <li>Change admin password</li>
+      </ul>
+    </div>
+  </div>
+  <div style="margin-top:12px;padding:12px 14px;background:var(--color-background-secondary);border-radius:var(--border-radius-md);font-size:12px;color:var(--color-text-secondary);">
+    Admin login at <span style="font-family:var(--font-mono);color:var(--color-text-primary);">/admin/login</span> — protected by NextAuth middleware. All /admin/* routes redirect to login if session missing. Single admin account, credentials stored in DB.
+  </div>
+</div>
+
+<!-- TAB 4: FOLDER -->
+<div id="p4" style="display:none">
+<div class="folder">
+<span class="dir">pune-realty/</span>
+├── <span class="dir">prisma/</span>
+│   ├── <span class="file">schema.prisma</span>       <span class="comment">← all models here</span>
+│   └── <span class="dir">migrations/</span>           <span class="comment">← auto-generated</span>
+├── <span class="dir">src/</span>
+│   ├── <span class="dir">app/</span>
+│   │   ├── <span class="dir">(public)/</span>           <span class="comment">← public layout group</span>
+│   │   │   ├── <span class="file">layout.tsx</span>      <span class="comment">← navbar + footer</span>
+│   │   │   ├── <span class="file">page.tsx</span>        <span class="comment">← homepage</span>
+│   │   │   ├── <span class="dir">listings/</span>
+│   │   │   │   └── <span class="file">page.tsx</span>
+│   │   │   ├── <span class="dir">property/[slug]/</span>
+│   │   │   │   └── <span class="file">page.tsx</span>
+│   │   │   ├── <span class="dir">compare/</span>
+│   │   │   │   └── <span class="file">page.tsx</span>
+│   │   │   └── <span class="dir">contact/</span>
+│   │   │       └── <span class="file">page.tsx</span>
+│   │   ├── <span class="dir">admin/</span>
+│   │   │   ├── <span class="file">layout.tsx</span>      <span class="comment">← sidebar layout</span>
+│   │   │   ├── <span class="dir">login/page.tsx</span>
+│   │   │   ├── <span class="file">page.tsx</span>        <span class="comment">← dashboard</span>
+│   │   │   ├── <span class="dir">properties/</span>
+│   │   │   │   ├── <span class="file">page.tsx</span>    <span class="comment">← list all</span>
+│   │   │   │   ├── <span class="file">new/page.tsx</span>
+│   │   │   │   └── <span class="file">[id]/page.tsx</span>
+│   │   │   ├── <span class="dir">leads/page.tsx</span>
+│   │   │   ├── <span class="dir">locations/page.tsx</span>
+│   │   │   └── <span class="dir">settings/page.tsx</span>
+│   │   └── <span class="dir">api/</span>
+│   │       ├── <span class="dir">auth/[...nextauth]/route.ts</span>
+│   │       ├── <span class="dir">properties/route.ts</span>
+│   │       ├── <span class="dir">leads/route.ts</span>
+│   │       └── <span class="dir">upload/route.ts</span>  <span class="comment">← Cloudinary sign</span>
+│   ├── <span class="dir">actions/</span>               <span class="comment">← all server actions</span>
+│   │   ├── <span class="file">property.actions.ts</span>
+│   │   ├── <span class="file">lead.actions.ts</span>
+│   │   └── <span class="file">location.actions.ts</span>
+│   ├── <span class="dir">components/</span>
+│   │   ├── <span class="dir">ui/</span>               <span class="comment">← shadcn or custom</span>
+│   │   ├── <span class="file">property-card.tsx</span>
+│   │   ├── <span class="file">filter-sidebar.tsx</span>
+│   │   ├── <span class="file">compare-panel.tsx</span>
+│   │   ├── <span class="file">emi-calculator.tsx</span>
+│   │   ├── <span class="file">enquiry-form.tsx</span>
+│   │   ├── <span class="file">image-upload.tsx</span>
+│   │   └── <span class="file">whatsapp-button.tsx</span>
+│   ├── <span class="dir">lib/</span>
+│   │   ├── <span class="file">prisma.ts</span>         <span class="comment">← singleton client</span>
+│   │   ├── <span class="file">validations.ts</span>   <span class="comment">← Zod schemas</span>
+│   │   ├── <span class="file">cloudinary.ts</span>
+│   │   └── <span class="file">whatsapp.ts</span>      <span class="comment">← URL builder</span>
+│   ├── <span class="dir">middleware.ts</span>           <span class="comment">← auth guard /admin</span>
+│   └── <span class="dir">types/</span>
+│       └── <span class="file">index.ts</span>
+├── <span class="file">.env.local</span>                <span class="comment">← DATABASE_URL, AUTH…</span>
+└── <span class="file">next.config.ts</span>
+</div>
+</div>
+
+<!-- TAB 5: FLOW -->
+<div id="p5" style="display:none">
+  <div style="font-size:12px;color:var(--color-text-secondary);margin-bottom:16px;">Two flows — public visitor journey and admin content flow. Click any node to explore.</div>
+  <div style="font-size:12px;font-weight:500;color:var(--color-text-primary);margin-bottom:8px;">Public user journey</div>
+  <svg width="100%" viewBox="0 0 680 280" role="img">
+    <title>Public user journey flowchart</title>
+    <desc>User lands on homepage, searches or browses listings, views a property, then either enquires via WhatsApp or uses the compare tool.</desc>
+    <defs><marker id="arr2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+    <g class="node c-blue" onclick="sendPrompt('What is on the homepage hero section?')">
+      <rect x="40" y="30" width="110" height="52" rx="8" stroke-width="0.5"/>
+      <text class="th" x="95" y="52" text-anchor="middle" dominant-baseline="central">Homepage</text>
+      <text class="ts" x="95" y="70" text-anchor="middle" dominant-baseline="central">Search + browse</text>
+    </g>
+    <line x1="150" y1="56" x2="184" y2="56" class="arr" marker-end="url(#arr2)"/>
+    <g class="node c-teal" onclick="sendPrompt('How does the listings filter work?')">
+      <rect x="184" y="30" width="110" height="52" rx="8" stroke-width="0.5"/>
+      <text class="th" x="239" y="52" text-anchor="middle" dominant-baseline="central">Listings</text>
+      <text class="ts" x="239" y="70" text-anchor="middle" dominant-baseline="central">Filter + sort</text>
+    </g>
+    <line x1="294" y1="56" x2="328" y2="56" class="arr" marker-end="url(#arr2)"/>
+    <g class="node c-teal" onclick="sendPrompt('What is on the property detail page?')">
+      <rect x="328" y="30" width="120" height="52" rx="8" stroke-width="0.5"/>
+      <text class="th" x="388" y="52" text-anchor="middle" dominant-baseline="central">Property page</text>
+      <text class="ts" x="388" y="70" text-anchor="middle" dominant-baseline="central">Photos, specs, map</text>
+    </g>
+    <line x1="448" y1="40" x2="510" y2="40" class="arr" marker-end="url(#arr2)"/>
+    <line x1="448" y1="72" x2="510" y2="200" class="arr" marker-end="url(#arr2)"/>
+    <g class="node c-green" onclick="sendPrompt('How does the WhatsApp enquiry flow work?')">
+      <rect x="510" y="18" width="130" height="44" rx="8" stroke-width="0.5"/>
+      <text class="th" x="575" y="37" text-anchor="middle" dominant-baseline="central">Enquire</text>
+      <text class="ts" x="575" y="53" text-anchor="middle" dominant-baseline="central">WhatsApp + save lead</text>
+    </g>
+    <g class="node c-purple" onclick="sendPrompt('How does the compare tool work?')">
+      <rect x="510" y="178" width="130" height="44" rx="8" stroke-width="0.5"/>
+      <text class="th" x="575" y="197" text-anchor="middle" dominant-baseline="central">Compare</text>
+      <text class="ts" x="575" y="213" text-anchor="middle" dominant-baseline="central">2 properties side-by-side</text>
+    </g>
+    <path d="M239 82 L239 150 L328 150" fill="none" stroke="#1d9e75" stroke-width="1" stroke-dasharray="4 3" marker-end="url(#arr2)"/>
+    <text class="ts" x="270" y="144" text-anchor="middle">location filter</text>
+    <g class="node c-gray" onclick="sendPrompt('What are the top 10 Pune locations?')">
+      <rect x="328" y="124" width="120" height="44" rx="8" stroke-width="0.5"/>
+      <text class="th" x="388" y="143" text-anchor="middle" dominant-baseline="central">Location page</text>
+      <text class="ts" x="388" y="159" text-anchor="middle" dominant-baseline="central">Filter by area</text>
+    </g>
+  </svg>
+
+  <div style="font-size:12px;font-weight:500;color:var(--color-text-primary);margin:20px 0 8px;">Admin content flow</div>
+  <svg width="100%" viewBox="0 0 680 260" role="img">
+    <title>Admin content management flow</title>
+    <desc>Admin logs in, reaches the dashboard, then can manage properties with full CRUD including image upload, view leads, or manage locations and settings.</desc>
+    <defs><marker id="arr3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+    <g class="node c-coral" onclick="sendPrompt('How does admin login work with NextAuth?')">
+      <rect x="30" y="100" width="100" height="52" rx="8" stroke-width="0.5"/>
+      <text class="th" x="80" y="122" text-anchor="middle" dominant-baseline="central">Login</text>
+      <text class="ts" x="80" y="140" text-anchor="middle" dominant-baseline="central">NextAuth session</text>
+    </g>
+    <line x1="130" y1="126" x2="162" y2="126" class="arr" marker-end="url(#arr3)"/>
+    <g class="node c-amber" onclick="sendPrompt('What is shown on the admin dashboard?')">
+      <rect x="162" y="100" width="110" height="52" rx="8" stroke-width="0.5"/>
+      <text class="th" x="217" y="122" text-anchor="middle" dominant-baseline="central">Dashboard</text>
+      <text class="ts" x="217" y="140" text-anchor="middle" dominant-baseline="central">Stats + recent leads</text>
+    </g>
+    <line x1="272" y1="110" x2="332" y2="50" class="arr" marker-end="url(#arr3)"/>
+    <line x1="272" y1="126" x2="332" y2="126" class="arr" marker-end="url(#arr3)"/>
+    <line x1="272" y1="142" x2="332" y2="200" class="arr" marker-end="url(#arr3)"/>
+    <g class="node c-purple" onclick="sendPrompt('How does the admin add a new property?')">
+      <rect x="332" y="26" width="140" height="52" rx="8" stroke-width="0.5"/>
+      <text class="th" x="402" y="48" text-anchor="middle" dominant-baseline="central">Properties CRUD</text>
+      <text class="ts" x="402" y="66" text-anchor="middle" dominant-baseline="central">Add / edit / delete</text>
+    </g>
+    <line x1="472" y1="52" x2="524" y2="52" class="arr" marker-end="url(#arr3)"/>
+    <g class="node c-teal" onclick="sendPrompt('How does Cloudinary image upload work in the admin?')">
+      <rect x="524" y="26" width="126" height="52" rx="8" stroke-width="0.5"/>
+      <text class="th" x="587" y="48" text-anchor="middle" dominant-baseline="central">Image upload</text>
+      <text class="ts" x="587" y="66" text-anchor="middle" dominant-baseline="central">Cloudinary signed</text>
+    </g>
+    <g class="node c-green" onclick="sendPrompt('How does the leads table work in admin?')">
+      <rect x="332" y="100" width="140" height="52" rx="8" stroke-width="0.5"/>
+      <text class="th" x="402" y="122" text-anchor="middle" dominant-baseline="central">Leads</text>
+      <text class="ts" x="402" y="140" text-anchor="middle" dominant-baseline="central">View + export CSV</text>
+    </g>
+    <g class="node c-gray" onclick="sendPrompt('What can admin change in settings and locations?')">
+      <rect x="332" y="176" width="140" height="52" rx="8" stroke-width="0.5"/>
+      <text class="th" x="402" y="198" text-anchor="middle" dominant-baseline="central">Locations + settings</text>
+      <text class="ts" x="402" y="216" text-anchor="middle" dominant-baseline="central">Areas, hero text, phone</text>
+    </g>
+  </svg>
+</div>
+
+</div>
+<script>
+function sw(n){
+  for(let i=1;i<=5;i++){
+    document.getElementById('p'+i).style.display=i===n?'block':'none';
+    document.getElementById('t'+i).className='tab'+(i===n?' active':'');
+  }
+}
+</script>
