@@ -6,10 +6,7 @@ generator client {
 }
 
 datasource db {
-  // To use Neon DB (PostgreSQL) in production:
-  // 1. Change provider from "sqlite" to "postgresql"
-  // 2. Change url config inside prisma.config.ts
-  provider = "sqlite"
+  provider = "postgresql"
 }
 
 model User {
